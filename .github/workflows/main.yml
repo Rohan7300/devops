@@ -51,9 +51,8 @@ jobs:
      
       - name: DEPLOY ON SERVER 
         run: |
-          ssh -t -o StrictHostKeyChecking=no $user@remote-server << 'EOF'
-           echo "Runnig commnads omn remote"
-           ls -l
+          ssh -vvv -t -o StrictHostKeyChecking=no $user@remote-server << 'EOF'
+          echo "Debugging SSH connection"
           EOF
            
       
