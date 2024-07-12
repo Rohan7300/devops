@@ -43,6 +43,11 @@ jobs:
           docker tag devops:latest rohan7300/devops:latest
           docker push rohan7300/devops:latest
 
+      - name: Setup ssh
+        uses: webfactory/ssh-agent@v0.5.3
+        with: 
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+     
       - name: DEPLOY ON SERVER 
         uses: appleboy/ssh-action@v0.1.6
         with:
