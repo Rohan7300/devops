@@ -49,11 +49,10 @@ jobs:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
      
       - name: DEPLOY ON SERVER 
-        uses: appleboy/ssh-action@v0.1.6
+        uses: webfactory/ssh-agent@v0.5.3
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             docker pull rohan7300/devops:latest
             docker stop my-container || true
