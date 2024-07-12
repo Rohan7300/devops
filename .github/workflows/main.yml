@@ -51,7 +51,7 @@ jobs:
      
       - name: DEPLOY ON SERVER 
         run: |
-          ssh -t -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -t -o StrictHostKeyChecking=no $user@remote-server << 'EOF'
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/devops:latest
             docker stop devops || true
             docker rm devops || true
