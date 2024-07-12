@@ -52,10 +52,8 @@ jobs:
       - name: DEPLOY ON SERVER 
         run: |
           ssh -t -o StrictHostKeyChecking=no $user@remote-server << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/devops:latest
-            docker stop devops || true
-            docker rm devops || true
-            docker run -d --name devops -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/devops:latest
+           echo "Runnig commnads omn remote"
+           ls -l
           EOF
            
       
