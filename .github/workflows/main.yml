@@ -48,12 +48,27 @@ jobs:
         with: 
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
           
-     
-      - name: DEPLOY ON SERVER 
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRETS_ACCESS_KEY }}
+          aws-region: ap-south-1
+          
+      - name: login to ecr
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+
+      - name: Build, Tag 
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: lesson-086
+          IMAGE_TAG: latest
         run: |
-          ssh -vvv -t -o StrictHostKeyChecking=no $user@remote-server << 'EOF'
-          echo "Debugging SSH connection"
-          EOF
+          docker build -t #ECR_REGISTRY/#ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
            
       
         
