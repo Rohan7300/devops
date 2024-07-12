@@ -47,17 +47,16 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with: 
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            docker pull rohan7300/devops:latest
-            docker stop my-container || true
-            docker rm my-container || true
-            docker run -d --name devops -p 10:80 devops
+          
      
-    ##  - name: DEPLOY ON SERVER 
-    ##    uses: webfactory/ssh-agent@v0.5.3
-    ##    with:
-    ##      host: ${{ secrets.SERVER_IP }}
-    # #     username: ${{ secrets.SERVER_USERNAME }}
+      - name: DEPLOY ON SERVER 
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} << 'EOF'
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/devops:latest
+            docker stop devops || true
+            docker rm devops || true
+            docker run -d --name devops -p 80:80 ${{ secrets.DOCKER_HUB_USERNAME }}/devops:latest
+          EOF
            
       
         
